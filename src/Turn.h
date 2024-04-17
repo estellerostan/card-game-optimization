@@ -33,6 +33,10 @@ struct Turn
 		// TODO: refactor
 		playerTurn = playerTurn == 0 ? 1 : 0;
 
+		if (_players[playerTurn]->isDead) {
+			return;
+		}
+
 		init();
 		attack();
 	}
