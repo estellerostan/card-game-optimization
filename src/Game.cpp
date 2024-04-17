@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 #include <iostream>
+#include "Deck.h"
+#include "SetList.h"
 
 Game::Game()
 {
@@ -8,6 +10,18 @@ Game::Game()
     window_.setFramerateLimit(60);
 
     sf::Clock clock;
+
+    SetList setList;
+
+    // std::cout << "SetList size" << setList.cards.size() << std::endl;
+
+    auto myDeck = Deck(setList.cards, 0);
+    Deck enemyDeck = Deck(setList.cards, 1);
+
+    std::cout << "Deck size " << myDeck.cards.size() << std::endl;
+    std::cout << "Deck size " << enemyDeck.cards.size() << std::endl;
+
+
 }
 
 void Game::run()
