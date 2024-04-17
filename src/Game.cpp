@@ -13,6 +13,8 @@ Game::Game()
 
     sf::Clock clock;
 
+    srand(time(NULL));
+
     SetList setList;
 
     Player p0 = Player(setList.cards, 0);
