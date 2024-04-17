@@ -3,6 +3,8 @@
 #include <iostream>
 #include "Deck.h"
 #include "SetList.h"
+#include "Player.h"
+#include "Turn.h"
 
 Game::Game()
 {
@@ -13,15 +15,11 @@ Game::Game()
 
     SetList setList;
 
-    // std::cout << "SetList size" << setList.cards.size() << std::endl;
+    Player p0 = Player(setList.cards, 0);
+    Player p1 = Player(setList.cards, 1);
 
-    auto myDeck = Deck(setList.cards, 0);
-    Deck enemyDeck = Deck(setList.cards, 1);
-
-    std::cout << "Deck size " << myDeck.cards.size() << std::endl;
-    std::cout << "Deck size " << enemyDeck.cards.size() << std::endl;
-
-
+    Turn turn = Turn({ &p0, &p1 });
+    turn.playTurn();
 }
 
 void Game::run()

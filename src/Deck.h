@@ -8,7 +8,9 @@ struct Deck
 {
 	std::vector<Card> cards;
 
+	Deck() {};
 	Deck(std::vector<Card> setListCards, int player) {
+		// TODO: random
 		if (player == 0) {
 			cards = { setListCards.begin(), setListCards.end() - 60 };
 		}
