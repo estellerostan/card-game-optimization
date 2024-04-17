@@ -24,6 +24,11 @@ Game::Game()
 		Player p1 = Player(setList.cards, 1);
 
 		Turn turn = Turn({ &p0, &p1 });
+
+		if (i >= 500) {
+			turn.playerTurn = 1;
+		}
+
 		turn.playTurns();
 
 		if (p1.isDead) {
