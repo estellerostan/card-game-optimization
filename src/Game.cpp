@@ -16,27 +16,41 @@ Game::Game()
 	srand(time(NULL));
 
 	SetList setList;
+	int referenceWinRate = 0;
+	std::vector<Card> referenceDeck;
+	std::vector<Card> currentDeck;
 
-	int winRate = 0;
-	for (size_t i = 0; i < 1000; i++)
+	for (size_t j = 0; j < 250; j++)
 	{
-		Player p0 = Player(setList.cards, 0);
-		Player p1 = Player(setList.cards, 1);
+		int currentWinRate = 0;
+		for (size_t i = 0; i < 1000; i++)
+		{
+			Player p0 = Player(setList.cards, 0);
+			currentDeck = p0.deck.cards;
+			currentDeck.insert(currentDeck.end(), p0.hand.begin(), p0.hand.end());
+			Player p1 = Player(setList.cards, 1);
 
-		Turn turn = Turn({ &p0, &p1 });
+			Turn turn = Turn({ &p0, &p1 });
 
-		if (i >= 500) {
-			turn.playerTurn = 1;
+			if (i >= 500) {
+				turn.playerTurn = 1;
+			}
+
+			turn.playTurns();
+
+			if (p1.isDead) {
+				currentWinRate++;
+			}
 		}
 
-		turn.playTurns();
-
-		if (p1.isDead) {
-			winRate++;
+		if (currentWinRate > referenceWinRate) {
+			referenceWinRate = currentWinRate;
+			referenceDeck = currentDeck;
 		}
+
+		//std::cout << "WR P1: " << currentWinRate / 10.f << "% vs P2: " << (1000 - currentWinRate) / 10.F << "%" << std::endl;
 	}
 
-	std::cout << "WR P1: " << winRate / 10.f << "% vs P2: " << (1000 - winRate) / 10.F << "%" << std::endl;
 	auto elapsed = clock.getElapsedTime();
 	std::cout << "Time taken: " << elapsed.asMilliseconds() << " ms" << std::endl;
 }
