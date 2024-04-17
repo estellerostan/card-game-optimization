@@ -8,49 +8,61 @@
 
 Game::Game()
 {
-    window_.create(sf::VideoMode(1920u, 1080u), "Card game");
-    window_.setFramerateLimit(60);
+	//window_.create(sf::VideoMode(1920u, 1080u), "Card game");
+	//window_.setFramerateLimit(60);
 
-    sf::Clock clock;
+	sf::Clock clock;
 
-    srand(time(NULL));
+	srand(time(NULL));
 
-    SetList setList;
+	SetList setList;
 
-    Player p0 = Player(setList.cards, 0);
-    Player p1 = Player(setList.cards, 1);
+	int winRate = 0;
+	for (size_t i = 0; i < 1000; i++)
+	{
+		Player p0 = Player(setList.cards, 0);
+		Player p1 = Player(setList.cards, 1);
 
-    Turn turn = Turn({ &p0, &p1 });
-    turn.playTurn();
+		Turn turn = Turn({ &p0, &p1 });
+		turn.playTurns();
+
+		if (p1.isDead) {
+			winRate++;
+		}
+	}
+
+	std::cout << "WR P1: " << winRate / 10.f << "% vs P2: " << (1000 - winRate) / 10.F << "%" << std::endl;
+	auto elapsed = clock.getElapsedTime();
+	std::cout << "Time taken: " << elapsed.asMilliseconds() << " ms" << std::endl;
 }
 
 void Game::run()
 {
-    while (window_.isOpen())
-    {
-        for (auto event = sf::Event{}; window_.pollEvent(event);)
-        {
-            if (event.type == sf::Event::Closed)
-            {
-                window_.close();
-            }
-        }
+	//while (window_.isOpen())
+	//{
+	//	for (auto event = sf::Event{}; window_.pollEvent(event);)
+	//	{
+	//		if (event.type == sf::Event::Closed)
+	//		{
+	//			window_.close();
+	//		}
+	//	}
 
-        sf::Time elapsed = clock.restart();
-        update(elapsed.asSeconds());
-        render();
-    }
+	//	sf::Time elapsed = clock.restart();
+	//	update(elapsed.asSeconds());
+	//	render();
+	//}
 }
 
 void Game::update(float deltaTime)
 {
-    // TODO:
+	// TODO:
 }
 
 void Game::render()
 {
-    window_.clear();
-    // TODO:
-    // window.draw();
-    window_.display();
+	window_.clear();
+	// TODO:
+	// window.draw();
+	window_.display();
 }
