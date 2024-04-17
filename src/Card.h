@@ -21,3 +21,8 @@ struct Card
 		return r_os << "(" << r_a.Cost << ";" << r_a.ATK << ';' << r_a.DEF << ")";
 	}
 };
+
+inline bool operator==(Card const& r_left, Card const& r_right)
+{
+	return r_left.ATK == r_right.ATK && r_left.DEF == r_right.DEF;
+}
