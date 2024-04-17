@@ -21,7 +21,9 @@ struct Player
 		isDead = false;
 		for (size_t i = 0; i < 4; i++)
 		{
-			hand.push_back(deck.cards[rand() % deck.cards.size()]);
+			Card res = deck.cards[rand() % deck.cards.size()];
+			hand.push_back(res);
+			deck.cards.erase(std::find(deck.cards.begin(), deck.cards.end(), res));
 		}
 	}
 };
