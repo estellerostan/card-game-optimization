@@ -12,7 +12,7 @@ struct Card
 	Card(int atk, int def) {
 		ATK = atk;
 		DEF = def;
-		Cost = std::ceil((ATK + DEF) / 2);
+		Cost = std::ceil((ATK + DEF) / 2.f);
 	}
 
 	//for file debug log
