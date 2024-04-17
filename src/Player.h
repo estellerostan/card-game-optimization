@@ -17,7 +17,9 @@ struct Player
 		deck = Deck(setListCards, player);
 		mana = 0;
 		PV = 20;
-		// TODO: random
-		hand = { deck.cards.begin(), deck.cards.end() - 26 };
+		for (size_t i = 0; i < 4; i++)
+		{
+			hand.push_back(deck.cards[rand() % deck.cards.size()]);
+		}
 	}
 };

@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include "Card.h"
+#include <algorithm>
 
 struct Deck
 {
@@ -10,12 +11,10 @@ struct Deck
 
 	Deck() {};
 	Deck(std::vector<Card> setListCards, int player) {
-		// TODO: random
-		if (player == 0) {
-			cards = { setListCards.begin(), setListCards.end() - 60 };
-		}
-		else if (player == 1) {
-			cards = { setListCards.begin() + 30, setListCards.end() - 30 };
+		for (size_t i = 0; i < 30; i++)
+		{
+			// TODO: not more than twice of the same card
+			cards.push_back(setListCards[rand() % setListCards.size()]);
 		}
 	}
 };
