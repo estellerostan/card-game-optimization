@@ -27,7 +27,7 @@ Game::Game()
 		{
 			Player p0;
 			if (referenceDeck.size() > 0) {
-				p0 = Player(referenceDeck, 0, false);
+				p0 = Player(referenceDeck, 0, false, setList.cards);
 			}
 			else {
 				p0 = Player(setList.cards, 0, true);
@@ -53,11 +53,17 @@ Game::Game()
 		if (currentWinRate > referenceWinRate) {
 			referenceWinRate = currentWinRate;
 			referenceDeck = currentDeck;
+			std::cout << "turn " << j << ":" << std::endl;
+			std::cout << "WR: " << currentWinRate / 10.f << "%" << std::endl << std::endl;
 		}
 
 		//std::cout << "WR P1: " << currentWinRate / 10.f << "% vs P2: " << (1000 - currentWinRate) / 10.F << "%" << std::endl;
 	}
 
+	for each (Card card in referenceDeck)
+	{
+		std::cout << card << std::endl;
+	}
 	auto elapsed = clock.getElapsedTime();
 	std::cout << "Time taken: " << elapsed.asMilliseconds() << " ms" << std::endl;
 }
