@@ -8,6 +8,9 @@ class Game
 
     sf::Clock clock;
 
+    std::vector<int> winRates;
+    sf::Vertex line[1000];
+
     void update(float deltaTime);
     void render();
 

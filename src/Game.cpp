@@ -8,8 +8,8 @@
 
 Game::Game()
 {
-	//window_.create(sf::VideoMode(1920u, 1080u), "Card game");
-	//window_.setFramerateLimit(60);
+	window_.create(sf::VideoMode(1920u, 1080u), "Card game");
+	window_.setFramerateLimit(60);
 
 	sf::Clock clock;
 
@@ -26,51 +26,53 @@ Game::Game()
 
 	for (size_t j = 0; j < 250; j++)
 	{
-	Player p0;
-	if (referenceDeck.size() > 0) {
-		p0 = Player();
-		p0.createDeck(referenceDeck, 0, false);
-	}
-	else {
-		p0 = Player();
-		p0.createDeck(setList.cards, 0, true);
-	}
-	currentDeckP0 = p0.deck.cards;
+		Player p0;
+		if (referenceDeck.size() > 0) {
+			p0 = Player();
+			p0.createDeck(referenceDeck, 0, false);
+		}
+		else {
+			p0 = Player();
+			p0.createDeck(setList.cards, 0, true);
+		}
+		currentDeckP0 = p0.deck.cards;
 
-	Player p1 = Player();
-	p1.createDeck(setList.cards, 1, true);
-	std::vector<Card> currentDeckP1 = p1.deck.cards;
+		int currentWinRate = 0;
+		for (size_t i = 0; i < 1000; i++)
+		{
+			p0.addDeck(currentDeckP0, setList.cards);
+			p0.resetPlayer();
+			p1.addDeck(currentDeckP1);
+			p1.resetPlayer();
 
-	int currentWinRate = 0;
-	for (size_t i = 0; i < 1000; i++)
-	{
-		p0.addDeck(currentDeckP0, setList.cards);
-		p0.resetPlayer();
-		p1.addDeck(currentDeckP1);
-		p1.resetPlayer();
+			Turn turn = Turn({ &p0, &p1 });
 
-		Turn turn = Turn({ &p0, &p1 });
+			if (i >= 500) {
+				turn.playerTurn = 1;
+			}
 
-		if (i >= 500) {
-			turn.playerTurn = 1;
+			turn.playTurns();
+
+			if (p1.isDead) {
+				currentWinRate++;
+			}
 		}
 
-		turn.playTurns();
+		if (currentWinRate > referenceWinRate) {
+			referenceWinRate = currentWinRate;
+			referenceDeck = currentDeckP0;
+			std::cout << "turn " << j << ":" << std::endl;
+			std::cout << "WR: " << currentWinRate / 10.f << "%" << std::endl << std::endl;
 
-		if (p1.isDead) {
-			currentWinRate++;
+			if (currentWinRate > 970) {
+				break;
+			}
 		}
-	}
 
-	if (currentWinRate > referenceWinRate) {
-		referenceWinRate = currentWinRate;
-		referenceDeck = currentDeckP0;
-		//std::cout << "turn " << j << ":" << std::endl;
-		std::cout << "WR: " << currentWinRate / 10.f << "%" << std::endl << std::endl;
-	}
+		winRates.push_back(currentWinRate);
 
-	std::cout << "WR P1: " << currentWinRate / 10.f << "% vs P2: " << (1000 - currentWinRate) / 10.F << "%" << std::endl;
-//}
+		//std::cout << "WR P1: " << currentWinRate / 10.f << "% vs P2: " << (1000 - currentWinRate) / 10.F << "%" << std::endl;
+	}
 
 	for each (Card card in referenceDeck)
 	{
@@ -82,20 +84,20 @@ Game::Game()
 
 void Game::run()
 {
-	//while (window_.isOpen())
-	//{
-	//	for (auto event = sf::Event{}; window_.pollEvent(event);)
-	//	{
-	//		if (event.type == sf::Event::Closed)
-	//		{
-	//			window_.close();
-	//		}
-	//	}
+	while (window_.isOpen())
+	{
+		for (auto event = sf::Event{}; window_.pollEvent(event);)
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				window_.close();
+			}
+		}
 
-	//	sf::Time elapsed = clock.restart();
-	//	update(elapsed.asSeconds());
-	//	render();
-	//}
+		sf::Time elapsed = clock.restart();
+		update(elapsed.asSeconds());
+		render();
+	}
 }
 
 void Game::update(float deltaTime)
@@ -106,7 +108,13 @@ void Game::update(float deltaTime)
 void Game::render()
 {
 	window_.clear();
-	// TODO:
-	// window.draw();
+	int i = 0;
+	for each (int var in winRates)
+	{
+		line[i] = sf::Vertex(sf::Vector2f(i * 2, var * 2));
+		i++;
+	}
+
+	window_.draw(line, 1000, sf::Lines);
 	window_.display();
 }
