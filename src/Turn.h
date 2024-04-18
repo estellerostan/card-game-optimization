@@ -26,18 +26,15 @@ struct Turn
 	}
 
 	void playTurn() {
-		init();
-		attack();
-
-		// TODO: refactor
-		playerTurn = playerTurn == 0 ? 1 : 0;
-
 		if (_players[playerTurn]->isDead) {
 			return;
 		}
 
 		init();
 		attack();
+
+		// TODO: refactor
+		playerTurn = playerTurn == 0 ? 1 : 0;	
 	}
 
 	void init() {
