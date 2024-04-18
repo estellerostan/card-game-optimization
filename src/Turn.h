@@ -44,9 +44,9 @@ struct Turn
 		Player* player = _players[playerTurn];
 		player->mana += 1;
 		if (player->deck.cards.size() > 0) {
-			// TODO: should this be random too?
-			player->hand.push_back(player->deck.cards.back());
-			player->deck.cards.pop_back();
+			Card res = player->deck.cards[rand() % player->deck.cards.size()];
+			player->hand.push_back(res);
+			player->deck.cards.erase(std::find(player->deck.cards.begin(), player->deck.cards.end(), res));
 		}
 	}
 
