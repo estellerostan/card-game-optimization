@@ -20,8 +20,12 @@ Game::Game()
 	std::vector<Card> referenceDeck;
 	std::vector<Card> currentDeckP0;
 
-	/*for (size_t j = 0; j < 250; j++)
-	{*/
+	Player p1 = Player();
+	p1.createDeck(setList.cards, 1, true);
+	std::vector<Card> currentDeckP1 = p1.deck.cards;
+
+	for (size_t j = 0; j < 250; j++)
+	{
 	Player p0;
 	if (referenceDeck.size() > 0) {
 		p0 = Player();
