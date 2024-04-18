@@ -25,7 +25,7 @@ Game::Game()
 	Player p0;
 	if (referenceDeck.size() > 0) {
 		p0 = Player();
-		p0.createDeck(referenceDeck, 0, false, setList.cards);
+		p0.createDeck(referenceDeck, 0, false);
 	}
 	else {
 		p0 = Player();
@@ -40,7 +40,7 @@ Game::Game()
 	int currentWinRate = 0;
 	for (size_t i = 0; i < 1000; i++)
 	{
-		p0.addDeck(currentDeckP0);
+		p0.addDeck(currentDeckP0, setList.cards);
 		p0.resetPlayer();
 		p1.addDeck(currentDeckP1);
 		p1.resetPlayer();

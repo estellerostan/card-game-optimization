@@ -28,12 +28,18 @@ struct Player
 		}
 	}
 
-	void createDeck(std::vector<Card> cards, int player, bool randomDeck, std::vector<Card> setListCards = {}) {
+	void createDeck(std::vector<Card> cards, int player, bool randomDeck) {
 		if (randomDeck) {
 			deck = Deck(cards, player);
 		}
 		else {
 			deck.cards = cards;
+		}
+	}
+
+	void addDeck(std::vector<Card> cards, std::vector<Card> setListCards = {}) {
+		deck.cards = cards;
+		if (setListCards.size() > 0) {
 			// Not more than twice of the same card
 			bool dup = true;
 			while (dup) {
@@ -51,9 +57,5 @@ struct Player
 				}
 			}
 		}
-	}
-
-	void addDeck(std::vector<Card> cards) {
-		deck.cards = cards;
 	}
 };
