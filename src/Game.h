@@ -14,6 +14,7 @@ class Game
 
     std::vector<Card> referenceDeck;
     std::map<int, int> costDeck;
+    std::map<int, int> turnsCount;
 
     void update(float deltaTime);
     void render();

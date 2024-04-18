@@ -56,6 +56,8 @@ Game::Game()
 			if (p1.isDead) {
 				currentWinRate++;
 			}
+
+			turnsCount[turn.turnsCount] += 1;
 		}
 
 		if (currentWinRate > referenceWinRate) {
@@ -110,15 +112,15 @@ Game::Game()
 	}
 }
 
-void Game::run()
+	std::ofstream myfile3;
+	myfile3.open("example3.csv");
+	myfile3 << "Durée des parties.\n";
+	myfile3 << "tours, effectif,\n";
+	int h = 0;
+	for each (auto var in turnsCount)
 {
-	while (window_.isOpen())
-	{
-		for (auto event = sf::Event{}; window_.pollEvent(event);)
-		{
-			if (event.type == sf::Event::Closed)
-			{
-				window_.close();
+		myfile3 << var.first << "," << var.second << "\n";
+		h++;
 			}
 		}
 
