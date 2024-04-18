@@ -25,10 +25,17 @@ Game::Game()
 		int currentWinRate = 0;
 		for (size_t i = 0; i < 1000; i++)
 		{
-			Player p0 = Player(setList.cards, 0);
+			Player p0;
+			if (referenceDeck.size() > 0) {
+				p0 = Player(referenceDeck, 0, false);
+			}
+			else {
+				p0 = Player(setList.cards, 0, true);
+			}
+			Player p1 = Player(setList.cards, 1, true);
+
 			currentDeck = p0.deck.cards;
 			currentDeck.insert(currentDeck.end(), p0.hand.begin(), p0.hand.end());
-			Player p1 = Player(setList.cards, 1);
 
 			Turn turn = Turn({ &p0, &p1 });
 

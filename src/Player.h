@@ -14,8 +14,13 @@ struct Player
 	std::vector<Card> hand;
 
 	Player() {}
-	Player(std::vector<Card> setListCards, int player) {
-		deck = Deck(setListCards, player);
+	Player(std::vector<Card> cards, int player, bool random) {
+		if (random) {
+			deck = Deck(cards, player);
+		}
+		else {
+			deck.cards = cards;
+		}
 		mana = 0;
 		PV = 20;
 		isDead = false;
