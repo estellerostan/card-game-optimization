@@ -80,6 +80,34 @@ Game::Game()
 	}
 	auto elapsed = clock.getElapsedTime();
 	std::cout << "Time taken: " << elapsed.asMilliseconds() << " ms" << std::endl;
+
+	std::ofstream myfile;
+	myfile.open("example.csv");
+	myfile << "Win rate.\n";
+	myfile << "nbGames, WR,\n";
+	int i = 0;
+	for each (int var in winRates)
+	{
+		i++;
+		myfile << i << "," << var / 10.f << "\n";
+	}
+	myfile.close();
+
+	for each (Card var in referenceDeck)
+	{
+		costDeck[var.Cost] += 1;
+	}
+
+	std::ofstream myfile2;
+	myfile2.open("example2.csv");
+	myfile2 << "Meilleures cartes.\n";
+	myfile2 << "cout, effectif,\n";
+	int j = 0;
+	for each (auto var in costDeck)
+	{
+		myfile2 << var.first << "," << var.second << "\n";
+		j++;
+	}
 }
 
 void Game::run()

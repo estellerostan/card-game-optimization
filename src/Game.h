@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "Card.h"
 
 class Game
 {
@@ -10,6 +11,9 @@ class Game
 
     std::vector<int> winRates;
     sf::Vertex line[1000];
+
+    std::vector<Card> referenceDeck;
+    std::map<int, int> costDeck;
 
     void update(float deltaTime);
     void render();
