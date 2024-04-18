@@ -14,7 +14,21 @@ struct Player
 	std::vector<Card> hand;
 
 	Player() {}
-	Player(std::vector<Card> cards, int player, bool randomDeck, std::vector<Card> setListCards = {}) {
+
+	void resetPlayer() {
+		mana = 0;
+		PV = 20;
+		isDead = false;
+		hand = {};
+		for (size_t i = 0; i < 4; i++)
+		{
+			Card res = deck.cards[rand() % deck.cards.size()];
+			hand.push_back(res);
+			deck.cards.erase(std::find(deck.cards.begin(), deck.cards.end(), res));
+		}
+	}
+
+	void createDeck(std::vector<Card> cards, int player, bool randomDeck, std::vector<Card> setListCards = {}) {
 		if (randomDeck) {
 			deck = Deck(cards, player);
 		}
@@ -35,16 +49,11 @@ struct Player
 				else {
 					dup = true;
 				}
-			}			
+			}
 		}
-		mana = 0;
-		PV = 20;
-		isDead = false;
-		for (size_t i = 0; i < 4; i++)
-		{
-			Card res = deck.cards[rand() % deck.cards.size()];
-			hand.push_back(res);
-			deck.cards.erase(std::find(deck.cards.begin(), deck.cards.end(), res));
-		}
+	}
+
+	void addDeck(std::vector<Card> cards) {
+		deck.cards = cards;
 	}
 };

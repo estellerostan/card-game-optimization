@@ -18,47 +18,55 @@ Game::Game()
 	SetList setList;
 	int referenceWinRate = 0;
 	std::vector<Card> referenceDeck;
-	std::vector<Card> currentDeck;
+	std::vector<Card> currentDeckP0;
 
-	for (size_t j = 0; j < 250; j++)
-	{
-		int currentWinRate = 0;
-		for (size_t i = 0; i < 1000; i++)
-		{
-			Player p0;
-			if (referenceDeck.size() > 0) {
-				p0 = Player(referenceDeck, 0, false, setList.cards);
-			}
-			else {
-				p0 = Player(setList.cards, 0, true);
-			}
-			Player p1 = Player(setList.cards, 1, true);
-
-			currentDeck = p0.deck.cards;
-			currentDeck.insert(currentDeck.end(), p0.hand.begin(), p0.hand.end());
-
-			Turn turn = Turn({ &p0, &p1 });
-
-			if (i >= 500) {
-				turn.playerTurn = 1;
-			}
-
-			turn.playTurns();
-
-			if (p1.isDead) {
-				currentWinRate++;
-			}
-		}
-
-		if (currentWinRate > referenceWinRate) {
-			referenceWinRate = currentWinRate;
-			referenceDeck = currentDeck;
-			std::cout << "turn " << j << ":" << std::endl;
-			std::cout << "WR: " << currentWinRate / 10.f << "%" << std::endl << std::endl;
-		}
-
-		//std::cout << "WR P1: " << currentWinRate / 10.f << "% vs P2: " << (1000 - currentWinRate) / 10.F << "%" << std::endl;
+	/*for (size_t j = 0; j < 250; j++)
+	{*/
+	Player p0;
+	if (referenceDeck.size() > 0) {
+		p0 = Player();
+		p0.createDeck(referenceDeck, 0, false, setList.cards);
 	}
+	else {
+		p0 = Player();
+		p0.createDeck(setList.cards, 0, true);
+	}
+	currentDeckP0 = p0.deck.cards;
+
+	Player p1 = Player();
+	p1.createDeck(setList.cards, 1, true);
+	std::vector<Card> currentDeckP1 = p1.deck.cards;
+
+	int currentWinRate = 0;
+	for (size_t i = 0; i < 1000; i++)
+	{
+		p0.addDeck(currentDeckP0);
+		p0.resetPlayer();
+		p1.addDeck(currentDeckP1);
+		p1.resetPlayer();
+
+		Turn turn = Turn({ &p0, &p1 });
+
+		if (i >= 500) {
+			turn.playerTurn = 1;
+		}
+
+		turn.playTurns();
+
+		if (p1.isDead) {
+			currentWinRate++;
+		}
+	}
+
+	if (currentWinRate > referenceWinRate) {
+		referenceWinRate = currentWinRate;
+		referenceDeck = currentDeckP0;
+		//std::cout << "turn " << j << ":" << std::endl;
+		std::cout << "WR: " << currentWinRate / 10.f << "%" << std::endl << std::endl;
+	}
+
+	std::cout << "WR P1: " << currentWinRate / 10.f << "% vs P2: " << (1000 - currentWinRate) / 10.F << "%" << std::endl;
+//}
 
 	for each (Card card in referenceDeck)
 	{
