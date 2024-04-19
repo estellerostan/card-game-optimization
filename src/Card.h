@@ -8,11 +8,31 @@ struct Card
 	int Cost;
 	int ATK;
 	int DEF;
+	bool hasTaunt;
+	bool hasTrample;
+	bool hasDistortion;
+	bool hasFirstStrike;
 
 	Card(int atk, int def) {
 		ATK = atk;
 		DEF = def;
 		Cost = std::ceil((ATK + DEF) / 2.f);
+	}
+
+	Card(int atk, int def, bool taunt, bool trample, bool distortion, bool firstStrike) {
+		ATK = atk;
+		DEF = def;
+
+		hasTaunt = taunt;
+		hasTrample = trample;
+		hasDistortion = distortion;
+		hasFirstStrike = firstStrike;
+
+		Cost = std::ceil(((ATK + DEF) / 2.f)
+			+ (hasTaunt ? 1.5 : 0)
+			+ (hasTrample ? 1 : 0)
+			+ (hasDistortion ? 1 : 0)
+			+ (hasFirstStrike ? 1 : 0));
 	}
 
 	//for file debug log
