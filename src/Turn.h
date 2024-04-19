@@ -4,17 +4,21 @@
 #include <iostream>
 #include "Player.h"
 #include "Card.h"
+#include "Board.h"
 
 struct Turn
 {
 	std::vector<Player*> _players;
 	int playerTurn;
 	int turnsCount = 0;
+	std::vector<Board> boards;
 
 	Turn() {};
 	Turn(std::vector<Player*> players) {
 		_players = players;
-		playerTurn = 0;
+		playerTurn = 0;	
+		boards.push_back(Board());
+		boards.push_back(Board());
 	}
 
 	void playTurns() {
@@ -40,6 +44,7 @@ struct Turn
 	void init() {
 		Player* player = _players[playerTurn];
 		player->mana += 1;
+		// draw 1 card if possible
 		if (player->deck.cards.size() > 0) {
 			Card res = player->deck.cards[rand() % player->deck.cards.size()];
 			player->hand.push_back(res);
@@ -54,16 +59,12 @@ struct Turn
 		while (canAttack(cardToPlay)) {
 			player->mana -= cardToPlay.Cost;
 			player->hand.erase(std::find(player->hand.begin(), player->hand.end(), cardToPlay));
-			Player* enemy = _players[playerTurn == 0 ? 1 : 0];
-			enemy->PV = std::max(enemy->PV - cardToPlay.ATK, 0);
-
-			if (enemy->PV == 0) {
-				enemy->isDead = true;
-				return;
-			}
+			boards[playerTurn].add(cardToPlay);
 
 			cardToPlay = Card(-1, -1);
 		}
+		Player* enemy = _players[playerTurn == 0 ? 1 : 0];
+		boards[playerTurn].playCards(enemy);
 	}
 
 	bool canAttack(Card& cardToPlay)
